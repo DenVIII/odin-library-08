@@ -31,9 +31,9 @@ formSubmitBtn.addEventListener('click', (e) => {
     }
     
     if (values.length > 1) {
-        console.log(values)
         addBookToLibrary(new Book(...values));
         displayBooks(myLibrary);
+        clearForm();
         bookForm.classList.toggle('active');
     }
 })
@@ -53,14 +53,19 @@ function Book(title, author, pages, read) {
     }
 }
 
+function clearForm() {
+    for(let i = 0; i < formInputs.length - 1; i++) {
+        formInputs[i].value = '';
+    }
+    formInputs[formInputs.length - 1].checked = false;
+}
+
 function addBookToLibrary(book) {
     myLibrary.push(book);
 }
 
 function deleteBookFromLibrary(index) {
-    console.log(index)
     myLibrary.splice(index, 1);
-    console.log(myLibrary)
 }
 
 function displayBooks(library) {
@@ -96,5 +101,3 @@ function displayBooks(library) {
         })
     })
 }
-
-console.log(deleteBookBtns)
