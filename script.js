@@ -84,6 +84,7 @@ function displayBooks(library) {
         tableHeaders.forEach(element => {
             const dataCell = document.createElement('td');
             dataCell.textContent = book[element.textContent.toLowerCase()];
+            dataCell.classList.add(`${element.textContent.toLowerCase()}-cell`)
             tableRow.appendChild(dataCell);
         })
         bookCount += 1;
@@ -92,12 +93,35 @@ function displayBooks(library) {
         `
         bookTable.appendChild(tableRow);
     });
+    changeReadStatus();
     deleteBookBtns = document.querySelectorAll('.delete-book');
     deleteBookBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             deleteBookFromLibrary(btn.getAttribute('data-index'));
             displayBooks(myLibrary);
+        })
+    })
+}
+
+/* Right now this project have bad optimisation when it comes to adding or removing entries
+because displayBooks behaviour. It shouldn't reload book list every time. 
+
+This is note to self, so I remember that I should change that */
+
+function changeReadStatus() {
+    const readCells = document.querySelectorAll('.read-cell');
+    readCells.forEach(cell => {
+        cell.addEventListener('click', () => {
+            switch (cell.textContent) {
+                case 'read':
+                    cell.textContent = 'not yet read';
+                    myLibrary[cell.parentElement.rowIndex - 1].read = 'not yet read';
+                    break;
+                case 'not yet read':
+                    cell.textContent = 'read';
+                    myLibrary[cell.parentElement.rowIndex - 1].read = 'read';
+            }
         })
     })
 }
