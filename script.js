@@ -23,7 +23,13 @@ formSubmitBtn.addEventListener('click', (e) => {
             break;
         }
     }
-    values.push(formInputs[formInputs.length - 1].checked);
+
+    if (formInputs[formInputs.length - 1].checked) {
+        values.push('read');
+    } else {
+        values.push('not yet read');
+    }
+    
     if (values.length > 1) {
         console.log(values)
         addBookToLibrary(new Book(...values));
